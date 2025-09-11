@@ -1,0 +1,17 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "birthday",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-09-11",
+	"observability": {
+		"enabled": true
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "Birthday",
+			"database_id": "6d801dd4-5aa9-46a5-929a-1c624a864232",
+			"migrations_dir": "drizzle/migrations"
+		}
+	]
+}
