@@ -9,10 +9,12 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "chanfana": "^2.6.3",
     "dotenv": "^17.2.2",
     "drizzle-orm": "^0.44.5",
     "hono": "^4.6.20",
+    "jose": "^6.1.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {
