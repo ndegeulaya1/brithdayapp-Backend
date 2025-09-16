@@ -20,7 +20,17 @@ export const Signin = async (c: any) => {
   const match = await comparePassword(password, user.password);
   if (!match) return c.json({ error: "Invalid password" }, 401);
 
-  const token = await signJWT({ userId: user.id, email: user.email, role: user.role }, c.env, "1h");
+  // include username in JWT
+  const token = await signJWT(
+    { userId: user.id, email: user.email, username: user.username, role: user.role },
+    c.env,
+    "1h"
+  );
+
+  // Decode payload for logging
+  const [, payloadBase64] = token.split(".");
+  const decodedPayload = JSON.parse(atob(payloadBase64));
+  console.log("JWT Payload:", decodedPayload);
 
   return c.json(
     { message: "Login successful", userId: user.id, token },

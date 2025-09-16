@@ -5,10 +5,17 @@ import { cors } from "hono/cors";
 //import end point
 import { Signup } from "./endpoints/auth/signup";
 import { Signin } from "./endpoints/auth/signin";
-import { getUsersWithBirthdays } from "./endpoints/auth/getuser";
+
 import { Logout } from "./endpoints/auth/logout";
 import { ResetPasswordRequest } from "./endpoints/auth/reset";
 import { ResetPasswordConfirm } from "./endpoints/auth/forgot";
+
+//import users 
+import {deleteUser} from "./endpoints/users/deleteuser"
+import {getUsersWithBirthdays } from "./endpoints/users/getAllUser";
+import { getUserById } from "./endpoints/users/getuserById";
+import { updateUser } from "./endpoints/users/updateUser";
+import { updateProfile } from "./endpoints/users/updateprofile";
 
 
 
@@ -23,7 +30,7 @@ const app = new Hono<{ Bindings: Env }>();
 
 //cors 
 app.use("/*", cors({
-  origin: ["http://localhost:5173", "http://localhost:3000", "https://yourfrontend.com"],
+  origin: ["*"],
   allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowHeaders: ["Content-Type", "Authorization"],
   credentials: true,
@@ -37,13 +44,22 @@ const openapi = fromHono(app, {
 
   // end point // --- Root ---
 
-
+//auth endpoint
 openapi.post("/signup", Signup);
-openapi.get("/user", getUsersWithBirthdays );
+
 openapi.post("/signin", Signin);
 openapi.post("/logout", Logout);
 openapi.post("/reset", ResetPasswordRequest);
 openapi.post("/reset-password", ResetPasswordConfirm);
+
+
+//user managent endpoints
+openapi.get("/user", getUsersWithBirthdays);
+openapi.post("/deleteUser/:id", deleteUser);
+openapi.get("/user/:id",getUserById);
+openapi.post("/updateuser", updateUser);
+openapi.post("/updateProfile/:id",updateProfile)
+
 
 
 
