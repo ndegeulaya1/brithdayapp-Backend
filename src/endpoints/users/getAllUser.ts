@@ -14,7 +14,7 @@ export const getUsersWithBirthdays = async (c: any) => {
         username: users.username,
         email: users.email,
         role: users.role,
-        birthday: birthdays.date, // birthday.date will be null if no match
+        birthday: birthdays.date,
       })
       .from(users)
       .leftJoin(birthdays, eq(birthdays.userId, users.id));
