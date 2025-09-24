@@ -11,7 +11,7 @@ export const Signup = async (c: any) => {
   const parsed = signupSchema.safeParse(body);
   if (!parsed.success) return c.json({ error: parsed.error.flatten() }, 400);
 
-  const { name, email, password, birthday } = parsed.data;
+  const { username, email, password, birthday } = parsed.data;
 
   const existingUser = await db.select().from(users).where(eq(users.email, email)).get();
   if (existingUser) return c.json({ error: "Email already registered" }, 400);
@@ -20,7 +20,7 @@ export const Signup = async (c: any) => {
 
   try {
     const insertedUser = await db.insert(users)
-      .values({ username: name, email, password: hashedPassword })
+      .values({ username:username, email, password: hashedPassword })
       .returning({ id: users.id });
 
     await db.insert(birthdays)

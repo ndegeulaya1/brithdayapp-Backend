@@ -24,6 +24,22 @@ import { getUpcomingBirthdays } from "./endpoints/Birthday/1birthday";
 import { generateBirthdayNotifications } from "./endpoints/notification/birthday";
 import { getNotifications } from "./endpoints/notification/getnotification";
 
+// --- Middleware ---
+import { authMiddleware } from "./endpoints/middleware/auth";
+
+//post
+import { createComment } from "./endpoints/comment/createComment";
+import { getCommentsByPost } from "./endpoints/comment/getComment";
+
+//comments
+import { createPost } from "./endpoints/post/createPost";
+import { getPosts } from "./endpoints/post/getPost";
+
+// --- Message Endpoints ---
+import { sendMessage } from "./endpoints/messages/sendMessage";
+import { getMessages } from "./endpoints/messages/getMessages";
+import { getMyMessages } from "./endpoints/messages/getMyMessages";
+
 // --- Types ---
 type Env = {
   JWT_SECRET: string;
@@ -71,21 +87,28 @@ openapi.get("/birthdays/upcoming/7", getUpcomingBirthdays(7));
 
 // --- Notification Routes ---
 openapi.post("/notifications/birthdays", generateBirthdayNotifications);
-openapi.get("/notifications", getNotifications);
+openapi.get("/notifications", authMiddleware, getNotifications);
+
+
+//coments
+// Posts
+openapi.post("/posts", authMiddleware, createPost);
+openapi.get("/posts", getPosts);
+
+// Comments
+openapi.post("/comments", authMiddleware, createComment);
+openapi.get("/comments/:postId", getCommentsByPost);
+
+// Messages
+openapi.post("/messages/send", authMiddleware, sendMessage);
+openapi.post("/messages/conversation", authMiddleware, getMessages);
+openapi.get("/messages", authMiddleware, getMyMessages);
+
 
 // --- Root (no docs) ---
 app.get("/app", (c) => c.text("Birthday App API running"));
 
-// --- Worker Export ---
+//trigler notification automatically 
 export default {
   fetch: app.fetch,
-  async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext) {
-    const c = {
-      env,
-      json: (data: any) => data,
-      get: () => null,
-    };
-
-    await generateBirthdayNotifications(c);
-  },
 };
