@@ -8,6 +8,13 @@
       "when": 1757610607944,
       "tag": "0000_warm_puppet_master",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1758794879549,
+      "tag": "0001_smooth_wild_pack",
+      "breakpoints": true
     }
   ]
 }
