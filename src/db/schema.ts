@@ -60,3 +60,14 @@ export const notifications = sqliteTable("notifications", {
   isRead: integer("is_read").default(0), // 0 = unread, 1 = read
   createdAt: text("created_at").default("CURRENT_TIMESTAMP"),
 });
+
+
+//frendship
+
+export const friendships = sqliteTable("friendships", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  requesterId: integer("requester_id").references(() => users.id),
+  receiverId: integer("receiver_id").references(() => users.id),
+  status: text("status").default("pending"),
+  createdAt: text("created_at").default("CURRENT_TIMESTAMP"),
+});
