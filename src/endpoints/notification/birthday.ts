@@ -35,11 +35,11 @@ export const generateBirthdayNotifications = async (c: any) => {
             : `In 7 days, ${user.username} will have a birthday 🎁`;
 
         notificationsToCreate.push({
-          user_id: users.id,
+          userId: user.id,
           type: "birthday",
-          ref_id: null,
+          refId: null,
           content,
-          is_read: 0,
+          isRead: 0,
         });
       }
     }
