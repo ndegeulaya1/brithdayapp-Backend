@@ -15,6 +15,9 @@ import { getUsersWithBirthdays } from "./endpoints/users/getAllUser";
 import { getUserById } from "./endpoints/users/getuserById";
 import { updateUser } from "./endpoints/users/updateUser";
 import { updateProfile } from "./endpoints/users/updateprofile";
+import { getAllUsersAdmin } from "./endpoints/users/getAllUsersAdmin";
+import { getUserStats } from "./endpoints/users/getUserStats";
+import { updateUserRole } from "./endpoints/users/updateUserRole";
 
 // --- Birthday Endpoints ---
 import { getTodaysBirthdays } from "./endpoints/Birthday/todaybirthday";
@@ -23,6 +26,8 @@ import { getUpcomingBirthdays } from "./endpoints/Birthday/1birthday";
 // --- Notification Endpoints ---
 import { generateBirthdayNotifications } from "./endpoints/notification/birthday";
 import { getNotifications } from "./endpoints/notification/getnotification";
+import { markNotificationAsRead } from "./endpoints/notification/markAsRead";
+import { createSampleNotifications } from "./endpoints/notification/createSample";
 
 // --- Middleware ---
 import { authMiddleware } from "./endpoints/middleware/auth";
@@ -39,6 +44,14 @@ import { getPosts } from "./endpoints/post/getPost";
 import { sendMessage } from "./endpoints/messages/sendMessage";
 import { getMessages } from "./endpoints/messages/getMessages";
 import { getMyMessages } from "./endpoints/messages/getMyMessages";
+
+
+//-=- frend request
+ import { sendFriendRequest } from "./endpoints/friends/friendRequest"
+ import { acceptFriendRequest } from "./endpoints/friends/friendAccepts"
+ import { getFriendsList } from "./endpoints/friends/listfrend"
+
+ //------frend 
 
 // --- Types ---
 type Env = {
@@ -75,10 +88,13 @@ openapi.post("/reset-password", ResetPasswordConfirm);
 
 // --- User Routes ---
 openapi.get("/user", getUsersWithBirthdays);
+openapi.get("/users/all", getAllUsersAdmin);
+openapi.get("/users/stats", getUserStats);
 openapi.post("/deleteUser/:id", deleteUser);
 openapi.get("/user/:id", getUserById);
 openapi.post("/updateuser", updateUser);
 openapi.post("/updateProfile/:id", updateProfile);
+openapi.patch("/users/:id/role", updateUserRole);
 
 // --- Birthday Routes ---
 openapi.get("/birthdays/today", getTodaysBirthdays);
@@ -87,10 +103,10 @@ openapi.get("/birthdays/upcoming/7", getUpcomingBirthdays(7));
 
 // --- Notification Routes ---
 openapi.post("/notifications/birthdays", generateBirthdayNotifications);
-openapi.get("/notifications", authMiddleware, getNotifications);
+openapi.get("/notifications", getNotifications);
+openapi.patch("/notifications/:id/read", markNotificationAsRead);
+openapi.post("/notifications/sample", createSampleNotifications);
 
-
-//coments
 // Posts
 openapi.post("/posts", authMiddleware, createPost);
 openapi.get("/posts", getPosts);
@@ -103,6 +119,20 @@ openapi.get("/comments/:postId", getCommentsByPost);
 openapi.post("/messages/send", authMiddleware, sendMessage);
 openapi.post("/messages/conversation", authMiddleware, getMessages);
 openapi.get("/messages", authMiddleware, getMyMessages);
+
+// Friendship requests
+openapi.post("/friend-request/:userId", sendFriendRequest);
+openapi.put("/friend-request/:id/accept", authMiddleware, acceptFriendRequest);
+openapi.get("/friends", authMiddleware, getFriendsList);
+
+
+
+
+
+
+
+
+
 
 
 // --- Root (no docs) ---
