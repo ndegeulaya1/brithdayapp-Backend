@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "birthday",
+  "name": "backend",
   "main": "src/index.ts",
   "compatibility_date": "2025-09-11",
   "observability": {
