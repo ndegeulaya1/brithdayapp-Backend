@@ -15,9 +15,7 @@ import { getUsersWithBirthdays } from "./endpoints/users/getAllUser";
 import { getUserById } from "./endpoints/users/getuserById";
 import { updateUser } from "./endpoints/users/updateUser";
 import { updateProfile } from "./endpoints/users/updateprofile";
-import { getAllUsersAdmin } from "./endpoints/users/getAllUsersAdmin";
-import { getUserStats } from "./endpoints/users/getUserStats";
-import { updateUserRole } from "./endpoints/users/updateUserRole";
+
 
 // --- Birthday Endpoints ---
 import { getTodaysBirthdays } from "./endpoints/Birthday/todaybirthday";
@@ -88,13 +86,12 @@ openapi.post("/reset-password", ResetPasswordConfirm);
 
 // --- User Routes ---
 openapi.get("/user", getUsersWithBirthdays);
-openapi.get("/users/all", getAllUsersAdmin);
-openapi.get("/users/stats", getUserStats);
+
 openapi.post("/deleteUser/:id", deleteUser);
 openapi.get("/user/:id", getUserById);
 openapi.post("/updateuser", updateUser);
 openapi.post("/updateProfile/:id", updateProfile);
-openapi.patch("/users/:id/role", updateUserRole);
+
 
 // --- Birthday Routes ---
 openapi.get("/birthdays/today", getTodaysBirthdays);
